@@ -1,0 +1,51 @@
+extend ../layout
+
+block content
+	.container
+		.row
+			table.table.table-bordered.table-hover
+				caption.text-center 
+					h3 空气温湿度历史值节点和时间段选择
+	.container
+		.row
+			form.form-horizontal(method="post", action="/a_his_data")
+				fieldset
+					.form-group
+						lebel.col-md-2.control-label(for='dtp_input1')  开始时间
+						.input-group.date.form_datetime.col-md-5(data-date-format="yyyy-mm-dd hh:ii:ss",data-link-field="dtp_input1")
+							input.form-control(size="16",type="text",value="",readonl="", name="start_time")
+							span.input-group-addon
+								span.glyphicon.glyphicon-remove
+							span.input-group-addon
+								span.glyphicon.glyphicon-th
+					.form-group
+						lebel.col-md-2.control-label(for='dtp_input2')  截止时间
+						.input-group.date.form_datetime.col-md-5(data-date-format="yyyy-mm-dd hh:ii:ss",data-link-field="dtp_input2")
+							input.form-control(size="16",type="text",value="",readonl="", name="end_time")
+							span.input-group-addon
+								span.glyphicon.glyphicon-remove
+							span.input-group-addon
+								span.glyphicon.glyphicon-th
+					.form-group
+						lebel.col-md-2.control-label(for='node_select')  节点选择
+						select.form-control.col-md-5(name="node_select" style="width:41.7%")
+							option 00124B00061C8700
+							option 00124B00061C8701
+							option 00124B00061C8702
+							option 00124B00061C8703
+							option 00124B00061C8704
+							option 00124B00061C8705
+							option 00124B00061C8706
+							option 00124B00061C8707
+					button.btn.btn-default.col-md-offset-2(type="submit") 确认
+	script(type="text/javascript").
+		$('.form_datetime').datetimepicker({
+			language:  'zh-CN',
+			weekStart: 1,
+			todayBtn:  1,
+			autoclose: 1,
+			todayHighlight: 1,
+			startView: 2,
+			forceParse: 0,
+			showMeridian: 1
+		});

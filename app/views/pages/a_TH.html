@@ -1,0 +1,75 @@
+extend ../layout
+
+block content
+	.container
+		.row
+			table.table.table-bordered.table-hover
+				caption.text-center 
+					h3 空气温湿度
+				caption.text-right 
+					h5
+						a(href="/a_TH") 刷新
+						span &nbsp;|&nbsp;
+						a(href="/a_his_choice") 历史记录
+				thead
+					tr
+						th.text-center 节点地址
+						th.text-center 时间
+						th.text-center 值(℃/%)
+				tbody
+					tr
+						td.text-center 00124B00061C8700
+						td.text-center #{D00124B00061C8700}
+						td.text-center #{V00124B00061C8700}
+					tr
+						td.text-center 00124B00061C8701
+						td.text-center #{D00124B00061C8701}
+						td.text-center #{V00124B00061C8701}
+					tr
+						td.text-center 00124B00061C8702
+						td.text-center #{D00124B00061C8702}
+						td.text-center #{V00124B00061C8702}
+					tr
+						td.text-center 00124B00061C8703
+						td.text-center #{D00124B00061C8703}
+						td.text-center #{V00124B00061C8703}
+					tr
+						td.text-center 00124B00061C8704
+						td.text-center #{D00124B00061C8704}
+						td.text-center #{V00124B00061C8704}
+					tr
+						td.text-center 00124B00061C8705
+						td.text-center #{D00124B00061C8705}
+						td.text-center #{V00124B00061C8705}
+					tr
+						td.text-center 00124B00061C8706
+						td.text-center #{D00124B00061C8706}
+						td.text-center #{V00124B00061C8706}
+					tr
+						td.text-center 00124B00061C8707
+						td.text-center #{D00124B00061C8707}
+						td.text-center #{V00124B00061C8707}
+		.row
+			table#table
+	script(type="text/javascript").
+		$('#table').bootstrapTable({
+			columns: [{
+				field: 'id',
+				title: '节点地址'
+			}, {
+				field: 'name',
+				title: '时间'
+			}, {
+				field: 'price',
+				title: '历史记录'
+			}],
+			data: [{
+				id: 1,
+				name: 'Item 1',
+				price: '$1'
+			}, {
+				id: 2,
+				name: 'Item 2',
+				price: '$2'
+			}]
+		});	

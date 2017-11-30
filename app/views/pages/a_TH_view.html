@@ -1,0 +1,151 @@
+extend ../layout
+
+block content
+	.container
+		//- 下面一段是怕当时Node.js是非阻塞的，js从页面读数据，然曲线的数据来自表 
+		//- .row(style="display: none")  
+		//- 	table.table.table-bordered.table-hover
+		//- 		caption.text-center
+		//- 			span #{start_time}
+		//- 			span ------
+		//- 			span #{end_time} 
+		//- 			span ------
+		//- 			span #{node_}
+		//- 			h3 空气温湿度历史值
+		//- 		thead
+		//- 			tr
+		//- 				th.text-center 节点地址
+		//- 				th.text-center 时间
+		//- 				th.text-center 值
+		//- 		tbody
+		//- 			each item in views
+		//- 				tr
+		//- 					td.text-center #{item.MAC}
+		//- 					td.text-center #{item.date}
+		//- 					td.text-center.item_data #{item.data}
+		.row
+			#container
+		.row
+			table.table.table-bordered.table-hover
+				caption.text-center
+					span #{start_time}
+					span ------
+					span #{end_time} 
+					span ------
+					span #{node_}
+					h3 空气温湿度历史值
+				thead(style="display: none") 
+				<!-- thead(style="display: none")  -->
+					tr
+						th.text-center 节点地址
+						th.text-center 时间
+						th.text-center 值
+				tbody(style="display: none") 
+				<!-- tbody(style="display: none") -->
+					each item in views
+						tr
+							td.text-center #{item.MAC}
+							td.text-center #{item.date}
+							td.text-center.item_data #{item.data}
+		<!-- .row
+			table#table(data-toggle="table") -->
+	script(type="text/javascript").
+		var data_item_t = [];
+		var data_item_h = [];
+		var data_item_v = [];
+		$('.item_data').each(function(key, value) {
+		//data_item.push($(this).val());
+		console.log(value)
+			data_t = value.innerHTML.substring(0,4);
+			data_h = value.innerHTML.substring(5,9);
+			data_v = value.innerHTML.substring(10,13);
+			data_item_t[key] = Number(data_t);
+			data_item_h[key] = Number(data_h);
+			data_item_v[key] = Number(data_v);
+		})
+		//console.log(data_item_t);
+		var title = {
+			text: "空气温湿度曲线图"
+		};
+		var subtitle = {
+			text: "humiture chart"
+		};
+		var xAxis = {
+			categories: ['']
+		};
+		var yAxis = {
+			title: {
+				text: 'Humiture(\xB0C)'
+			},
+			plotLine: [{
+				value: 0,
+				width: 1,
+				color: '#808080'
+			}]
+		};
+		var tooltip = {
+			valueSuffix: ''
+		};
+		var legend = {
+			layout: 'vertical',
+			align: 'center',
+			verticalAlign: 'middle',
+			borderWidth: 0
+		};
+		var series = [
+			{
+				name:'温度',
+				data: data_item_t		
+			},
+			{
+			name: '湿度',
+			data: data_item_h
+			},
+			{
+			name: '电量',
+			data: data_item_v
+		}];
+		var json = {};
+		json.title = title;
+		json.subtitle = subtitle;
+		json.xAxis = xAxis;
+		json.yAxis = yAxis;
+		json.tooltip = tooltip;
+		json.legend = legend;
+		json.series = series;
+		$('#container').highcharts(json);
+		
+		$('#table').bootstrapTable({
+			//url:'http://192.168.1.106:3000/D:/dsgy_test007/a_TH.json' ,
+			url:'/date/a_TH.json' ,
+			dateType: 'json',
+			cache: false, //是否开始缓存
+			height: 835,	//设置高度
+			striped: true,	//隔行加量
+			pagination: true, //开启分页功能
+			pageSize: 20,		//初始化每页显示20条数据
+			pageNumber: 1, //初始化第一页
+			pageList: [10, 25, 50, 100, 200], //自定义每页表显示书目
+			search: false, //是否开启搜索功能
+			showColumns: false, //是否开启列显示功能
+			showRefresh: false, //是否开启刷新功能
+			clickToSelect: true, //单机即可选中
+			smartDisplay: true, //智能显示pagination和cardview等
+			columns: [{ //列设置
+				field: 'MAC',
+				title: 'MAC',
+				align: 'center',
+				valign: 'middle',
+			},{ 
+				field: 'date',
+				title: '时间',
+				align: 'center',
+				valign: 'middle',
+			},{ //列设置
+				field: 'data',
+				title: '值',
+				align: 'center',
+				valign: 'middle',
+			}]
+		})
+	
